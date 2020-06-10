@@ -35,7 +35,7 @@ La partie ``-v(--verbose) <1-2-3>`` est optionnelle et peut ne pas paraitre comm
 Affiche le manuel du logiciel
 ``-h (--help)``
 
-## Analyze
+## Analyse
 
 Permet de faire uniquement une analyse de la syntaxe d'un fichier source en un format spécifique.
 
