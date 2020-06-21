@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Windows.Forms;
 
-namespace AMC2GIFT
+namespace AMC2GIFT_GUI
 {
     class Conversion
     {
 
+        public static TextBox logbox = null;
         public static List<Groupe> importQuestions(String sourceformat, String sourcepath, int verbose)
         {
+            logbox.Text = "";
+            logbox.AppendText("Demarrage lecture des questions...");
+            logbox.AppendText(Environment.NewLine);
             List<Groupe> resImport= new List<Groupe>();
             switch (sourceformat.ToUpper())
             {
@@ -20,36 +25,42 @@ namespace AMC2GIFT
                 case "GIFT":
                     resImport.AddRange(GIFT.importQuestions(sourcepath, verbose));
                     break;
-                default:
-                    Console.WriteLine("illegal arguments for --convert, no such import format supported");
-                    break;
             }
+            logbox.AppendText(Environment.NewLine);
+            logbox.AppendText("Fin lecture des questions!");
+            logbox.AppendText(Environment.NewLine);
             return resImport;
         }
 
         public static void exportQuestions(String destformat, String destpath, List<Groupe> gquestions, int verbose)
         {
+            logbox.AppendText(Environment.NewLine);
+            logbox.AppendText("Demarrage exportation des questions!");
+            logbox.AppendText(Environment.NewLine);
             switch (destformat.ToUpper())
             {
                 case "AMC":
-                    AMC.exportQuestions(destpath, verbose);
+                    AMC.exportQuestions(gquestions, destpath, verbose);
                     break;
                 case "XMLMOODLE":
-                    XMLMOODLE.exportQuestions(destpath, verbose);
+                    XMLMOODLE.exportQuestions(gquestions, destpath, verbose);
                     break;
                 case "GIFT":
-                    GIFT.exportQuestions(destpath, verbose);
-                    break;
-                default:
-                    Console.WriteLine("illegal arguments for --convert, no such export format supported");
+                    GIFT.exportQuestions(gquestions, destpath, verbose);
                     break;
             }
+            logbox.AppendText(Environment.NewLine);
+            logbox.AppendText("Fin exportation des questions!");
+            logbox.AppendText(Environment.NewLine);
         }
 
-        public static void convertFile(String sourceformat, String sourcepath, String destformat, String destpath, int verbose)
+        public static void convertFile(String sourceformat, String sourcepath, String destformat, String destpath, System.Windows.Forms.TextBox textBox3, int verbose)
         {
+            logbox = textBox3;
             List<Groupe> resImport = importQuestions(sourceformat, sourcepath, verbose);
             if (resImport.Count >= 1) exportQuestions(destformat, destpath, resImport, verbose);
+            MessageBox.Show("Conversion terminée!");
+
         }
     }
 }

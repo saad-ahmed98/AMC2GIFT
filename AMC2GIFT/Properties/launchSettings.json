@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AMC2GIFT": {
+      "commandName": "Project",
+      "commandLineArgs": "-c GIFT \"resources/exemples GIFT.txt\" GIFT \"resultat.txt\""
+    }
+  }
+}
