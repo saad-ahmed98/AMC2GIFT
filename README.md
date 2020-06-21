@@ -8,7 +8,7 @@ Le but de ce projet est de créer un outil permettant de convertir des fichiers 
 
 # Avancement du projet
 
-Pour l'instant la seule ligne de commande qui est implémenté est celle d'analyse.
+Pour l'instant toutes les commandes sont implémentées et fonctionnelles sauf le verbose.
 
 # Commandes disponibles
 
