@@ -4,7 +4,7 @@ using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace AMC2GIFT_GUI
+namespace AMC2GIFT
 {
     class GIFT
     {
@@ -33,11 +33,7 @@ namespace AMC2GIFT_GUI
                     if (lines[i].Length == 1)
                     {
                         if (aOpen)
-                        {
-                            Analyze.logbox.AppendText("Erreur de syntaxe à la ligne " + nbligne + ", bloc de questions non fermé.");
-                            Analyze.logbox.AppendText(Environment.NewLine);
-                        }
-
+                            Console.WriteLine("Erreur de syntaxe à la ligne " + nbligne + ", bloc de question non fermé");
                         aOpen = false;
                     }
                     else
@@ -84,11 +80,7 @@ namespace AMC2GIFT_GUI
                         }
                     }
                     if (aOpen)
-                    {
-                        Analyze.logbox.AppendText("Erreur de syntaxe à la fin du fichier, un bloc de question n'est pas fermé");
-                        Analyze.logbox.AppendText(Environment.NewLine);
-                    }
-
+                        Console.WriteLine("Erreur de syntaxe à la fin du fichier. Un bloc de question n'est pas fermé.");
                     nbligne++;
                     i++;
                 }
@@ -97,31 +89,23 @@ namespace AMC2GIFT_GUI
             }
             catch (Exception e)
             {
-                Analyze.logbox.AppendText(e.Message);
-                Analyze.logbox.AppendText(Environment.NewLine);
+                Console.WriteLine(e.Message);
             }
         }
 
         internal static void logExport(Question q)
         {
-            Conversion.logbox.AppendText(Environment.NewLine);
-            Conversion.logbox.AppendText("Exportation de question de type " + q.GetType().Name + "...");
-            Conversion.logbox.AppendText(Environment.NewLine);
-            Conversion.logbox.AppendText("Titre question : " + q.getTitre());
-            Conversion.logbox.AppendText(Environment.NewLine);
-            Conversion.logbox.AppendText("Nombre de reponses : " + q.getReponses().Count);
-            Conversion.logbox.AppendText(Environment.NewLine);
+            Console.WriteLine("Exportation de question de type " + q.GetType().Name + "...");
+            Console.WriteLine("Titre question : " + q.getTitre());
+            Console.WriteLine("Nombre de reponses : " + q.getReponses().Count);
         }
         internal static void logImport(Question q)
         {
-            Conversion.logbox.AppendText(Environment.NewLine);
-            Conversion.logbox.AppendText("Lecture de question de type " + q.GetType().Name + "...");
-            Conversion.logbox.AppendText(Environment.NewLine);
-            Conversion.logbox.AppendText("Titre question : " + q.getTitre());
-            Conversion.logbox.AppendText(Environment.NewLine);
-            Conversion.logbox.AppendText("Nombre de reponses : " + q.getReponses().Count);
-            Conversion.logbox.AppendText(Environment.NewLine);
+            Console.WriteLine("Lecture de question de type " + q.GetType().Name + "...");
+            Console.WriteLine("Titre question : " + q.getTitre());
+            Console.WriteLine("Nombre de reponses : " + q.getReponses().Count);
         }
+
         private static void analyseReponses(String sb, int nbligne)
         {
             Boolean match = true;
@@ -150,8 +134,7 @@ namespace AMC2GIFT_GUI
             }
             if (!match)
             {
-                Analyze.logbox.AppendText("Erreur de syntaxe à la ligne " + nbligne + ". syntaxe invalide dans un bloc de reponse");
-                Analyze.logbox.AppendText(Environment.NewLine);
+                Console.WriteLine("Erreur de syntaxe à la ligne " + nbligne + ". Syntaxe illegale dans un bloc de question");
             }
         }
 
@@ -236,7 +219,7 @@ namespace AMC2GIFT_GUI
             }
             catch (Exception e)
             {
-                Conversion.logbox.AppendText(e.Message);
+                Console.WriteLine(e.Message);
             }
             res.Add(g);
             return res;
@@ -298,7 +281,7 @@ namespace AMC2GIFT_GUI
                 int index = texte.IndexOf("#");
                 if (index != -1)
                 {
-                    String[] split = texte.Split('#');
+                    String[] split = texte.Split("#");
                     texte = split[0];
                     rm.feedbackR = split[1];
                 }
@@ -316,7 +299,7 @@ namespace AMC2GIFT_GUI
                 int index = texte2.IndexOf("#");
                 if (index != -1)
                 {
-                    String[] split = texte2.Split('#');
+                    String[] split = texte2.Split("#");
                     texte2 = split[0];
                     rm.feedbackR = split[1];
                 }
@@ -351,7 +334,7 @@ namespace AMC2GIFT_GUI
             }
             else if (reponses.IndexOf("=") != -1 && reponses.IndexOf("~") == -1)
             {
-                String[] split = reponses.Split('=');
+                String[] split = reponses.Split("=");
                 if (reponses.IndexOf("->") != -1)
                 {
                     for (int i = 1; i < split.Length; i++)
@@ -373,7 +356,7 @@ namespace AMC2GIFT_GUI
             }
             else if (reponses.IndexOf("=") == -1 && reponses.IndexOf("~") != -1)
             {
-                String[] split = reponses.Split('~');
+                String[] split = reponses.Split("~");
                 for (int i = 1; i < split.Length; i++)
                 {
                     String fraction = "";
@@ -483,9 +466,9 @@ namespace AMC2GIFT_GUI
 
         internal static void exportQuestions(List<Groupe> gquestions, string destpath, int verbose)
         {
-            destpath += @"\resultatConversion.txt";
             StreamWriter w = new StreamWriter(destpath, false);
             String res = "";
+            int nbquestions = 0;
             foreach (Groupe g in gquestions)
             {
                 int i = 1;
@@ -498,6 +481,7 @@ namespace AMC2GIFT_GUI
                         q.titre[0] = "No title";
                     res += "::" + q.nomq + "::";
                     res += q.getTitre();
+                    nbquestions++;
                     switch (q)
                     {
                         case QuestionDescription qd:
@@ -528,6 +512,7 @@ namespace AMC2GIFT_GUI
                     i++;
                 }
             }
+            Console.WriteLine(nbquestions + " questions converties");
             w.Write(res);
             w.Close();
         }

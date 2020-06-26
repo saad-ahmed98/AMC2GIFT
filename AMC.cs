@@ -56,7 +56,6 @@ namespace AMC2GIFT
                     nbligne++;
                 }
                 file.Close();
-                Console.WriteLine("Done!");
             }
             catch (Exception e)
             {
@@ -134,8 +133,8 @@ namespace AMC2GIFT
             else ligne = ligne.Substring(2);
             if (q != null)
             {
-                if(q.titre.Count==0)
-                q.addTitre(ligne);
+                if (q.titre.Count == 0)
+                    q.addTitre(ligne);
                 return q;
             }
             return g;
@@ -251,6 +250,8 @@ namespace AMC2GIFT
             using (StreamWriter w = new StreamWriter(destpath, false))
             {
                 String res = "";
+                int nbquestions = 0;
+                int nbquestionsignore = 0;
                 for (int i = 0; i < gquestions.Count; i++)
                 {
                     if (i != 0)
@@ -260,6 +261,7 @@ namespace AMC2GIFT
                     }
                     foreach (Question q in gquestions[i].getQuestions())
                     {
+                        nbquestions++;
                         logExport(q);
                         String typeq = "";
                         if (q is QuestionSimple)
@@ -274,13 +276,13 @@ namespace AMC2GIFT
                         {
                             typeq = "*<lines=" + ((QuestionOuverte)q).getLignes() + "> ";
                             QuestionOuverte qo = (QuestionOuverte)q;
-                            if(!(q is QuestionOuverteAMC))
+                            if (!(q is QuestionOuverteAMC))
                                 qo.getReponses().Clear();
                             if (qo.getReponses().Count < 2)
                             {
                                 qo.getReponses().Clear();
-                                qo.addReponse(new ReponseSimple("","Ok",true));
-                                qo.addReponse(new ReponseSimple("", "Error", false));
+                                qo.addReponse(new ReponseSimple("", "Ok", true));
+                                qo.addReponse(new ReponseSimple("", "Erreur", false));
                             }
                         }
                         if (typeq != "")
@@ -297,6 +299,7 @@ namespace AMC2GIFT
                             }
                             res += "\n";
                         }
+                        else nbquestionsignore++;
                     }
                     if (i != 0)
                     {
@@ -304,6 +307,9 @@ namespace AMC2GIFT
                         res += gquestions[i].getTexte()[1] + "\n";
                     }
                 }
+                if (nbquestionsignore > 0)
+                    Console.WriteLine((nbquestions - nbquestionsignore) + " questions sur " + nbquestions + " converties");
+                else Console.WriteLine(nbquestions + " questions converties");
                 w.Write(res);
             }
         }

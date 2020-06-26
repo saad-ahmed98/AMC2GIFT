@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AMC2GIFT": {
+      "commandName": "Project",
+      "commandLineArgs": "-c AMC \"resources/exemples AMC.txt\" AMC \"resultat.txt\""
+    }
+  }
+}

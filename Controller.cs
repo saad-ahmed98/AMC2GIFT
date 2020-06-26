@@ -10,7 +10,7 @@ namespace AMC2GIFT
         static void Main(string[] args)
         {
             if (args.Length < 1)
-                Console.WriteLine("no arguments, please use -h or --help to check the manual.");
+                Console.WriteLine("Aucun argument, utiliser -h ou --help pour ouvrir le manuel.");
             else switch (args[0])
                 {
                     case "-c":
@@ -32,7 +32,7 @@ namespace AMC2GIFT
                         analyzeFile(args);
                         break;
                     default:
-                        Console.WriteLine("illegal arguments, please use -h or --help to check the manual.");
+                        Console.WriteLine("Arguments illegaux, utiliser -h ou --help pour ouvrir le manuel.");
                         break;
                 }
         }
@@ -43,14 +43,14 @@ namespace AMC2GIFT
             Boolean stop = false;
             if (args.Length < 5)
             {
-                Console.WriteLine("illegal arguments for --convert, to convert use '-c [-v <verboselevel>] <sourceformat> <sourcepath> <destformat> <destpath>'");
+                Console.WriteLine("Arguments illegaux pour --convert, pour convertir utiliser '-c [-v <verboselevel>] <sourceformat> <sourcepath> <destformat> <destpath>'");
                 stop = true;
             }
             else if (args[i].Equals("-v") || args[i].Equals("--verbose"))
             {
                 if (args.Length < 7)
                 {
-                    Console.WriteLine("illegal arguments for --convert, to convert use '-c [-v <verboselevel>] <sourceformat> <sourcepath> <destformat> <destpath>'");
+                    Console.WriteLine("Arguments illegaux pour --convert, pour convertir utiliser '-c [-v <verboselevel>] <sourceformat> <sourcepath> <destformat> <destpath>'");
                     stop = true;
                 }
                 else
@@ -70,7 +70,7 @@ namespace AMC2GIFT
                             i += 2;
                             break;
                         default:
-                            Console.WriteLine("illegal verbose level for --verbose, the verbose levels can be either 1, 2 or 3");
+                            Console.WriteLine("Niveau de verbose invalide pour --verbose, les niveaux disponibles sont 1, 2 ou 3");
                             stop = true;
                             break;
                     }
@@ -82,7 +82,7 @@ namespace AMC2GIFT
         private static void analyzeFile(string[] args)
         {
             if (args.Length < 3)
-                Console.WriteLine("illegal arguments for --analyze, to analyze use '-a <sourceformat> <sourcepath>'");
+                Console.WriteLine("Arguments illegaux pour --analyze, pour analyser utiliser '-a <sourceformat> <sourcepath>'");
             else Analyze.analyzeFile(args[1], args[2]);
         }
 
@@ -91,11 +91,11 @@ namespace AMC2GIFT
             Console.WriteLine("\nUsage :\nAMC2MOODLE   [-c|--convert] [-v|--verbose] <verboselevel> <sourceformat> <sourcepath> <destformat> <destpath> \n" +
                 "             [-h|--help]\n" +
                 "             [-a|--analyze] <sourceformat> <sourcepath>\n\n" +
-                "Detail of the commands :\n\n" +
-                "-c --convert\n\nUsed to convert a <sourceformat> file at the <sourcepath> path to a <destformat> file at the <destpath>\nif no destination path is specified, then the current directory will be used by default" +
-                "\n------------------------------------------\n-h --help\n\nShow the manual" +
-                "\n------------------------------------------\n-a --analyze\n\nUsed to analyze a file at the <sourcepath> and check if it corresponds to the <sourceformat> specified" +
-                "\n------------------------------------------\n-v --verbose\n\nUsed to specify the level of log showed when running a conversion\ndefault to 1 and has 3 levels (1,2,3)" +
+                "Detaille des commandes :\n\n" +
+                "-c --convert\n\nUtilisé pour convertir un fichier au format<sourceformat> se situant à l'emplacement <sourcepath> vers un fichier au format<destformat> à l'emplacement <destpath>" +
+                "\n------------------------------------------\n-h --help\n\nAffiche le manuel" +
+                "\n------------------------------------------\n-a --analyze\n\nUtilisé pour analyser un fichier à l'emplacement <sourcepath> et verifier s'il correspond au format <sourceformat> specifié" +
+                "\n------------------------------------------\n-v --verbose\n\nUtilisé pour specifier le niveau de log à utiliser pour --convert\npar défaut à 1 et possède 3 niveaux (1,2,3)" +
                 "\n------------------------------------------");
         }
     }
