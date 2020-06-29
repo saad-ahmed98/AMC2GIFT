@@ -8,8 +8,9 @@ namespace AMC2GIFT
 {
     class GIFT
     {
-        internal static void analyzeFile(string path)
+        internal static Boolean analyzeFile(string path)
         {
+            Boolean error = false;
             try
             {
                 System.IO.StreamReader file = new System.IO.StreamReader(path);
@@ -33,7 +34,10 @@ namespace AMC2GIFT
                     if (lines[i].Length == 1)
                     {
                         if (aOpen)
+                        {
                             Console.WriteLine("Erreur de syntaxe à la ligne " + nbligne + ", bloc de question non fermé");
+                            error = true;
+                        }
                         aOpen = false;
                     }
                     else
@@ -73,14 +77,17 @@ namespace AMC2GIFT
                                             }
                                         }
                                     }
-                                    analyseReponses(sb.ToString(), nbligne);
+                                    error = analyseReponses(sb.ToString(), nbligne, error);
                                     aOpen = false;
                                 }
                             }
                         }
                     }
                     if (aOpen)
+                    {
                         Console.WriteLine("Erreur de syntaxe à la fin du fichier. Un bloc de question n'est pas fermé.");
+                        error = true;
+                    }
                     nbligne++;
                     i++;
                 }
@@ -90,23 +97,28 @@ namespace AMC2GIFT
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                error = true;
             }
+            return error;
         }
 
         internal static void logExport(Question q)
         {
-            Console.WriteLine("Exportation de question de type " + q.GetType().Name + "...");
+            /*Console.WriteLine("Exportation de question de type " + q.GetType().Name + "...");
             Console.WriteLine("Titre question : " + q.getTitre());
             Console.WriteLine("Nombre de reponses : " + q.getReponses().Count);
+            */
         }
         internal static void logImport(Question q)
         {
+            /*
             Console.WriteLine("Lecture de question de type " + q.GetType().Name + "...");
             Console.WriteLine("Titre question : " + q.getTitre());
             Console.WriteLine("Nombre de reponses : " + q.getReponses().Count);
+            */
         }
 
-        private static void analyseReponses(String sb, int nbligne)
+        private static Boolean analyseReponses(String sb, int nbligne, Boolean error)
         {
             Boolean match = true;
             if (sb.Length > 0)
@@ -135,7 +147,9 @@ namespace AMC2GIFT
             if (!match)
             {
                 Console.WriteLine("Erreur de syntaxe à la ligne " + nbligne + ". Syntaxe illegale dans un bloc de question");
+                error = true;
             }
+            return error;
         }
 
         internal static List<Groupe> importQuestions(string sourcepath, int verbose)

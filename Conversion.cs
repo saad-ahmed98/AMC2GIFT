@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace AMC2GIFT
 {
@@ -12,8 +13,8 @@ namespace AMC2GIFT
             List<Groupe> resImport= new List<Groupe>();
             switch (sourceformat.ToUpper())
             {
-                case "AMC":
-                    resImport.AddRange(AMC.importQuestions(sourcepath, verbose));
+                case "AMCTXT":
+                    resImport.AddRange(AMCTXT.importQuestions(sourcepath, verbose));
                     break;
                 case "XMLMOODLE":
                     resImport.AddRange(XMLMOODLE.importQuestions(sourcepath, verbose));
@@ -26,7 +27,6 @@ namespace AMC2GIFT
                     break;
             }
             Console.WriteLine("Fin importation!");
-            Console.WriteLine("");
             return resImport;
         }
 
@@ -35,8 +35,8 @@ namespace AMC2GIFT
             Console.WriteLine("Debut exportation...");
             switch (destformat.ToUpper())
             {
-                case "AMC":
-                    AMC.exportQuestions(gquestions, destpath, verbose);
+                case "AMCTEXT":
+                    AMCTXT.exportQuestions(gquestions, destpath, verbose);
                     break;
                 case "XMLMOODLE":
                     XMLMOODLE.exportQuestions(gquestions, destpath, verbose);
@@ -53,8 +53,12 @@ namespace AMC2GIFT
 
         public static void convertFile(String sourceformat, String sourcepath, String destformat, String destpath, int verbose)
         {
-            List<Groupe> resImport = importQuestions(sourceformat, sourcepath, verbose);
-            if (resImport.Count >= 1) exportQuestions(destformat, destpath, resImport, verbose);
+            Boolean error = Analyze.analyzeFile(sourceformat, sourcepath);
+            if (!error)
+            {
+                List<Groupe> resImport = importQuestions(sourceformat, sourcepath, verbose);
+                if (resImport.Count >= 1) exportQuestions(destformat, destpath, resImport, verbose);
+            }
         }
     }
 }
