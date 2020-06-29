@@ -22,7 +22,7 @@ Commande permettant de convertir un fichier source d'un format spécifique vers 
 
 ``-c (--convert) -v(--verbose) <1-2-3> <formatsource> <cheminsource> <formatdest> <chemindest>``
   
-Remplacer ``<formatsource>`` et ``<formatdest>`` avec le format de source et celui de destination, les formats possibles sont AMC, XMLMOODLE et GIFT.
+Remplacer ``<formatsource>`` et ``<formatdest>`` avec le format de source et celui de destination, les formats possibles sont AMCTXT, XMLMOODLE et GIFT.
 Remplacer ``<cheminsource>`` ``<chemindest>`` avec les chemins de la source et celui de la destination, le chemin de destination ne doit pas forcement exister. Attention, on ne supporte que des chemins relatifs pour l’instant !
 
 La partie ``-v(--verbose) <1-2-3>`` est optionnelle et peut ne pas paraitre comme argument de la commande. Le verbose indique le niveau de log qu'on veut avoir pendant l'exécution. Par défaut la valeur est à 1 :
@@ -41,7 +41,7 @@ Permet de faire uniquement une analyse de la syntaxe d'un fichier source en un f
 
 ``-a (--analyze) <formatsource> <cheminsource>``
 
-Remplacer ``<formatsource>``  avec le format, les formats possibles sont AMC, XMLMOODLE et GIFT.
+Remplacer ``<formatsource>``  avec le format, les formats possibles sont AMCTXT, XMLMOODLE et GIFT.
 Remplacer ``<cheminsource>`` avec les chemins de la source. Attention, on ne supporte que des chemins relatifs pour l’instant !
 Nous n'avons pas de niveau de verbosité pour cette commande, on suppose que le niveau est toujours au maximum (sinon on n'aurait aucun intérêt en ne montrant pas les erreurs à fin d'analyse.
 
